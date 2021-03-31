@@ -29,7 +29,7 @@ class Masyarakat extends Koneksi
         $laporan = $_POST['isi_laporan'];
         $foto = $_FILES['foto']['name'];
         $file = $_FILES['foto']['tmp_name'];
-        $status = 'proses';
+        $status = '0';
         move_uploaded_file($file, '../../assets/gambar/' . $foto);
 
         $data = mysqli_query($this->koneksi, "INSERT INTO pengaduan (`tgl_pengaduan`,`nik`,`isi_laporan`,`foto`,`status`) VALUES ('$date', '$nik', '$laporan', '$foto', '$status')");

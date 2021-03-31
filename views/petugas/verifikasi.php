@@ -9,18 +9,18 @@ if (!$db->getSesi()) {
     header('location:../../login.php');
 }
 
-if (isset($_GET['d-id'])) {
-    $id = $_GET['d-id'];
-    $del = $db2->hapus_petugas($id);
-    if ($del == true) {
+if (isset($_GET['v-id'])) {
+    $id = $_GET['v-id'];
+    $ver = $db2->verifikasi($id);
+    if ($ver == true) {
         echo "<script>
-                alert('Hapus petugas berhasil')
-                window.location.href = 'petugas.php'
+                alert('Verifikasi berhasil')
+                window.location.href = 'verifikasi.php'
             </script>";
     } else {
         echo "<script>
-                alert('Hapus petugas gagal')
-                window.location.href = 'petugas.php'
+                alert('Verifikasi gagal')
+                window.location.href = 'verifikasi.php'
             </script>";
     }
 }
@@ -164,7 +164,7 @@ if (isset($_GET['logout'])) {
                     <br>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Data Masyarakat</h3>
+                            <h3 class="card-title">Data Pengaduan</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -172,21 +172,31 @@ if (isset($_GET['logout'])) {
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nik</th>
+                                        <th>Tanggal</th>
                                         <th>Nama</th>
-                                        <th>Username</th>
-                                        <th>Telepon</th>
+                                        <th>Laporan</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php $no = 1;
-                                    foreach ($db2->tampil_user() as $tmpl_data) : ?>
+                                    foreach ($db2->tampil_verifikasi() as $tmpl_data) : ?>
                                         <tr>
                                             <td><?= $no++ ?></td>
-                                            <td><?= $tmpl_data['nik'] ?></td>
+                                            <td><?= date('d M Y', strtotime($tmpl_data['tgl_pengaduan'])) ?></td>
                                             <td><?= $tmpl_data['nama'] ?></td>
-                                            <td><?= $tmpl_data['username'] ?></td>
-                                            <td><?= $tmpl_data['telp'] ?></td>
+                                            <td><?= $tmpl_data['isi_laporan'] ?></td>
+                                            <td>
+                                                <div class="bg-warning pb-1" style="border-radius: 20px;">
+                                                    Belum Diverifikasi
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="verifikasi.php?v-id=<?= $tmpl_data['id_pengaduan'] ?>" class="btn btn-primary" onclick="return confirm('Ingin memverifikasi laporan ini?')">Verifikasi</a>
+                                                </div>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

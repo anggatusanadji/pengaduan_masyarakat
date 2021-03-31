@@ -72,7 +72,7 @@ class Login extends Koneksi
         } else {
             if ($password1 == $password2) {
                 $password = $password2;
-                $data = mysqli_query($this->koneksi, "INSERT INTO masyarakat (`nik`,`nama`,`username`,`password`,`telp`) VALUES ('$nik', '$nama', '$username', '$password', '$telp')");
+                $data = mysqli_query($this->koneksi, "CALL register('$nik','$nama','$username','$password','$telp')"); // CALL PROCEDURE REGISTER
                 return $data;
             } else {
                 echo "<script>alert('Konfirmasi password tidak sama')</script>";

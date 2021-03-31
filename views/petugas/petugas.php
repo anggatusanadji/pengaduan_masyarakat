@@ -119,6 +119,14 @@ if (isset($_GET['logout'])) {
               </a>
             </li>
             <li class="nav-item">
+              <a href="verifikasi.php" class="nav-link">
+                <i class="nav-icon fas fa-check"></i>
+                <p>
+                  Verifikasi
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="pengaduan.php" class="nav-link">
                 <i class="nav-icon fas fa-envelope"></i>
                 <p>

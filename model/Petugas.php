@@ -53,7 +53,6 @@ class Petugas extends Koneksi
             return $sql;
         }
     }
-
     public function edit_petugas($id)
     {
         $data = $this->getPetugasBy($id);
@@ -70,12 +69,12 @@ class Petugas extends Koneksi
         } else {
             if ($password_lama == $data['password']) {
                 $password = $password_baru;
-                $sql2 = mysqli_query($this->koneksi, "UPDATE `petugas` SET `nama_petugas`='$nama_petugas', `username`='$username', `password`='$password' `telp`='$telp', `level`='$level' WHERE id_petugas='$id'");
+                $sql2 = mysqli_query($this->koneksi, "UPDATE `petugas` SET 
+                                                        `nama_petugas`='$nama_petugas', `username`='$username', `password`='$password' `telp`='$telp', `level`='$level' WHERE id_petugas='$id'");
                 return $sql2;
             }
         }
     }
-
     public function hapus_petugas($id)
     {
         $data = mysqli_query($this->koneksi, "DELETE FROM petugas WHERE id_petugas='$id'");
@@ -99,7 +98,7 @@ class Petugas extends Koneksi
     // PENGADUAN HALAMAN ADMIN
     public function tampil_pengaduan()
     {
-        $data = mysqli_query($this->koneksi, "SELECT * FROM pengaduan INNER JOIN masyarakat using(nik)");
+        $data = mysqli_query($this->koneksi, "SELECT * FROM pengaduan INNER JOIN masyarakat using(nik) WHERE status='proses' or status='selesai'");
         if ($data->num_rows > 0) {
             while ($d = $data->fetch_assoc()) {
                 $hasil[] = $d;
@@ -150,11 +149,29 @@ class Petugas extends Koneksi
         $id_petugas = $_SESSION['id_petugas'];
         $date = date('Y-m-d');
         $tanggapan = $_POST['tanggapan'];
-        $status = 'selesai';
 
-        $sql1 = mysqli_query($this->koneksi, "UPDATE pengaduan set status='$status' WHERE id_pengaduan='$id'");
+        $sql1 = mysqli_query($this->koneksi, "UPDATE pengaduan set status='selesai' WHERE id_pengaduan='$id'");
 
         $sql = mysqli_query($this->koneksi, "INSERT INTO tanggapan (`id_pengaduan`,`tgl_tanggapan`,`tanggapan`,`id_petugas`) VALUES ('$id', '$date', '$tanggapan', '$id_petugas')");
+        return $sql;
+    }
+
+    public function tampil_verifikasi()
+    {
+        $data = mysqli_query($this->koneksi, "SELECT * FROM pengaduan INNER JOIN masyarakat using(nik) WHERE status='0'");
+        if ($data->num_rows > 0) {
+            while ($d = $data->fetch_assoc()) {
+                $hasil[] = $d;
+            }
+        } else {
+            $hasil = [];
+        }
+        return $hasil;
+    }
+
+    public function verifikasi($id)
+    {
+        $sql = mysqli_query($this->koneksi, "UPDATE pengaduan set status='proses' WHERE id_pengaduan='$id'");
         return $sql;
     }
 

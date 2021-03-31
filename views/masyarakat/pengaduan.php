@@ -172,9 +172,13 @@ if (isset($_GET['logout'])) {
                                                     <div class="bg-warning pb-1" style="border-radius: 20px;">
                                                         <?= $tmpl_data['status'] ?>
                                                     </div>
-                                                <?php } else { ?>
+                                                <?php } elseif ($tmpl_data['status'] == 'selesai') { ?>
                                                     <div class="bg-success pb-1" style="border-radius: 20px;">
                                                         <?= $tmpl_data['status'] ?>
+                                                    </div>
+                                                <?php } else { ?>
+                                                    <div class="bg-danger pb-1" style="border-radius: 20px;">
+                                                        Belum Diverifikasi
                                                     </div>
                                                 <?php } ?>
                                             </td>
